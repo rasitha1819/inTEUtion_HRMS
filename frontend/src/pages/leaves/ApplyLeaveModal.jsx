@@ -52,10 +52,26 @@ const ApplyLeaveModal = ({ isOpen, onClose, balances = [], onSuccess }) => {
       setEndDate('');
     } catch (err) {
       console.error(err);
-      const errMsg = err.response?.data?.leave_type ||
-        err.response?.data?.non_field_errors?.[0] ||
-        err.response?.data?.detail ||
-        'Failed to submit leave application.';
+      let errMsg = 'Failed to submit leave application.';
+      if (err.response?.data) {
+        if (typeof err.response.data === 'string') {
+          errMsg = err.response.data.includes('<!DOCTYPE') || err.response.data.includes('<html')
+            ? 'Server error occurred while submitting application.'
+            : err.response.data;
+        } else if (typeof err.response.data === 'object') {
+          if (err.response.data.leave_type) {
+            errMsg = Array.isArray(err.response.data.leave_type) ? err.response.data.leave_type.join(' ') : err.response.data.leave_type;
+          } else if (err.response.data.detail) {
+            errMsg = err.response.data.detail;
+          } else if (err.response.data.non_field_errors) {
+            errMsg = Array.isArray(err.response.data.non_field_errors) ? err.response.data.non_field_errors.join(' ') : err.response.data.non_field_errors;
+          } else {
+            errMsg = Object.entries(err.response.data)
+              .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(' ') : (typeof v === 'object' ? JSON.stringify(v) : v)}`)
+              .join(' | ');
+          }
+        }
+      }
       setError(errMsg);
     } finally {
       setLoading(false);

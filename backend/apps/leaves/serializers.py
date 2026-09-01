@@ -36,7 +36,10 @@ class LeaveRequestSerializer(serializers.ModelSerializer):
             'reviewed_by', 'reviewed_by_name', 'review_comments',
             'applied_at', 'reviewed_at'
         ]
-        read_only_fields = ['id', 'applied_at', 'reviewed_at', 'status', 'reviewed_by', 'review_comments']
+        read_only_fields = [
+            'id', 'employee', 'applied_at', 'reviewed_at', 'status',
+            'reviewed_by', 'review_comments', 'total_days'
+        ]
 
     def get_reviewed_by_name(self, obj):
         if obj.reviewed_by:
@@ -51,16 +54,20 @@ class LeaveRequestSerializer(serializers.ModelSerializer):
             if start_date > end_date:
                 raise serializers.ValidationError({"end_date": "End date cannot be prior to start date."})
             
-            # Calculate total business/calendar days requested
+            # Calculate total calendar days requested
             days_count = (end_date - start_date).days + 1
             attrs['total_days'] = days_count
 
             # Check leave balance if employee exists
             request = self.context.get('request')
-            employee = attrs.get('employee')
-            if not employee and request and hasattr(request.user, 'employee_profile'):
+            employee = None
+            if self.instance and self.instance.employee:
+                employee = self.instance.employee
+            elif request and hasattr(request.user, 'employee_profile') and request.user.employee_profile:
                 employee = request.user.employee_profile
-                attrs['employee'] = employee
+
+            if not employee:
+                raise serializers.ValidationError({"detail": "An active employee profile is required to apply for leave."})
 
             leave_type = attrs.get('leave_type')
             if employee and leave_type:
