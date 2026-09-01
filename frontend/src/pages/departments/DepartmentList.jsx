@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, Plus, Users, UserCheck, Edit } from 'lucide-react';
+import { Building2, Plus, Users, UserCheck, Edit, Trash2 } from 'lucide-react';
 import { departmentApi } from '../../api/departments';
 import { employeeApi } from '../../api/employees';
 import Modal from '../../components/common/Modal';
@@ -20,6 +20,7 @@ const DepartmentList = () => {
   const [manager, setManager] = useState('');
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState('');
+  const [deletingId, setDeletingId] = useState(null);
 
   const fetchDepartments = async () => {
     try {
@@ -58,6 +59,28 @@ const DepartmentList = () => {
     setManager(dept.manager || '');
     setFormError('');
     setModalOpen(true);
+  };
+
+  const handleDelete = async (dept) => {
+    const confirmMsg = dept.employee_count > 0
+      ? `Are you sure you want to delete the "${dept.name}" department?\n\nIt currently has ${dept.employee_count} staff member(s) who will become unassigned.`
+      : `Are you sure you want to delete the "${dept.name}" department?`;
+
+    if (window.confirm(confirmMsg)) {
+      try {
+        setDeletingId(dept.id);
+        await departmentApi.deleteDepartment(dept.id);
+        await fetchDepartments();
+        if (modalOpen && editingDept?.id === dept.id) {
+          setModalOpen(false);
+        }
+      } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.detail || 'Failed to delete department.');
+      } finally {
+        setDeletingId(null);
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -169,12 +192,19 @@ const DepartmentList = () => {
                 </div>
 
                 {isHRorAdmin && (
-                  <div className="pt-2 flex justify-end">
+                  <div className="pt-2 flex items-center justify-end gap-3">
                     <button
                       onClick={() => handleOpenEdit(dept)}
-                      className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 font-semibold flex items-center gap-1"
+                      className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 font-semibold flex items-center gap-1 transition-colors"
                     >
-                      <Edit className="h-3.5 w-3.5" /> Edit Department
+                      <Edit className="h-3.5 w-3.5" /> Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(dept)}
+                      disabled={deletingId === dept.id}
+                      className="text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-semibold flex items-center gap-1 transition-colors disabled:opacity-50"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /> {deletingId === dept.id ? 'Deleting...' : 'Delete'}
                     </button>
                   </div>
                 )}
@@ -247,21 +277,34 @@ const DepartmentList = () => {
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
-            <button
-              type="button"
-              onClick={() => setModalOpen(false)}
-              className="rounded-xl border border-slate-300 dark:border-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={formLoading}
-              className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
-            >
-              {formLoading ? 'Saving...' : editingDept ? 'Save Changes' : 'Create Department'}
-            </button>
+          <div className="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+            {editingDept ? (
+              <button
+                type="button"
+                onClick={() => handleDelete(editingDept)}
+                disabled={deletingId === editingDept.id}
+                className="text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-semibold flex items-center gap-1 transition-colors disabled:opacity-50"
+              >
+                <Trash2 className="h-3.5 w-3.5" /> Delete
+              </button>
+            ) : <div />}
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setModalOpen(false)}
+                className="rounded-xl border border-slate-300 dark:border-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={formLoading}
+                className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
+              >
+                {formLoading ? 'Saving...' : editingDept ? 'Save Changes' : 'Create Department'}
+              </button>
+            </div>
           </div>
         </form>
       </Modal>
