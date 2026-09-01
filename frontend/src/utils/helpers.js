@@ -48,34 +48,34 @@ export const getStatusBadgeClass = (status) => {
   switch (status?.toUpperCase()) {
     case 'PRESENT':
     case 'APPROVED':
-      return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+      return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30';
     case 'LATE':
-      return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      return 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30';
     case 'HALF_DAY':
-      return 'bg-sky-500/10 text-sky-400 border-sky-500/30';
+      return 'bg-sky-500/10 text-sky-700 dark:text-sky-400 border-sky-500/30';
     case 'ABSENT':
     case 'REJECTED':
-      return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+      return 'bg-rose-500/10 text-rose-700 dark:text-rose-400 border-rose-500/30';
     case 'ON_LEAVE':
-      return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+      return 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border-indigo-500/30';
     case 'PENDING':
-      return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30';
+      return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/30';
     case 'CANCELLED':
-      return 'bg-slate-500/10 text-slate-400 border-slate-500/30';
+      return 'bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/30';
     default:
-      return 'bg-slate-500/10 text-slate-400 border-slate-500/30';
+      return 'bg-slate-500/10 text-slate-700 dark:text-slate-400 border-slate-500/30';
   }
 };
 
 export const getRoleBadgeClass = (role) => {
   switch (role?.toUpperCase()) {
     case 'ADMIN':
-      return 'bg-purple-500/15 text-purple-400 border-purple-500/30';
+      return 'bg-purple-500/15 text-purple-700 dark:text-purple-400 border-purple-500/30 font-medium';
     case 'HR':
-      return 'bg-blue-500/15 text-blue-400 border-blue-500/30';
+      return 'bg-blue-500/15 text-blue-700 dark:text-blue-400 border-blue-500/30 font-medium';
     case 'EMPLOYEE':
-      return 'bg-slate-500/15 text-slate-400 border-slate-500/30';
+      return 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border-slate-500/30 font-medium';
     default:
-      return 'bg-slate-500/15 text-slate-400 border-slate-500/30';
+      return 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border-slate-500/30 font-medium';
   }
 };

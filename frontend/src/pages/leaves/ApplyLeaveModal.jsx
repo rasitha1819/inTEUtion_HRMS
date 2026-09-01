@@ -65,18 +65,18 @@ const ApplyLeaveModal = ({ isOpen, onClose, balances = [], onSuccess }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Apply for Leave" maxWidth="max-w-lg">
       {error && (
-        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
+        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-600 dark:text-rose-400">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Leave Category *</label>
+          <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Leave Category *</label>
           <select
             value={leaveType}
             onChange={(e) => setLeaveType(e.target.value)}
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
           >
             <option value="CASUAL">Casual Leave</option>
             <option value="SICK">Sick Leave</option>
@@ -86,7 +86,7 @@ const ApplyLeaveModal = ({ isOpen, onClose, balances = [], onSuccess }) => {
             <option value="WFH">Work From Home</option>
           </select>
           {currentBalance && (
-            <p className="mt-1.5 text-xs text-indigo-400 font-medium">
+            <p className="mt-1.5 text-xs text-indigo-600 dark:text-indigo-400 font-medium">
               {leaveType === 'WFH' ? 'Allowance: 3 days / month • ' : ''}Available Balance: {currentBalance.remaining_days} of {currentBalance.total_days} days remaining
             </p>
           )}
@@ -94,58 +94,58 @@ const ApplyLeaveModal = ({ isOpen, onClose, balances = [], onSuccess }) => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Start Date *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Start Date *</label>
             <input
               type="date"
               required
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">End Date *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">End Date *</label>
             <input
               type="date"
               required
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
         </div>
 
         {requestedDays > 0 && (
-          <div className="rounded-xl bg-slate-950/60 p-3 border border-slate-800 text-xs text-slate-300">
-            Total Duration Requested: <span className="font-bold text-white">{requestedDays} day(s)</span>
+          <div className="rounded-xl bg-slate-50 dark:bg-slate-950/60 p-3 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">
+            Total Duration Requested: <span className="font-bold text-slate-900 dark:text-white">{requestedDays} day(s)</span>
           </div>
         )}
 
         <div>
-          <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Reason for Leave *</label>
+          <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Reason for Leave *</label>
           <textarea
             required
             rows={3}
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Please describe reason for leave request..."
-            className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+        <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+            className="rounded-xl border border-slate-300 dark:border-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
+            className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
           >
             {loading ? 'Submitting...' : 'Submit Application'}
           </button>

@@ -5,13 +5,7 @@ import {
   Square, 
   Calendar, 
   CheckCircle2, 
-  AlertTriangle, 
-  Timer, 
-  Filter, 
-  User, 
-  FileText,
-  Search,
-  Building2
+  Timer
 } from 'lucide-react';
 import { attendanceApi } from '../../api/attendance';
 import { departmentApi } from '../../api/departments';
@@ -21,7 +15,7 @@ import { formatDate, formatTime } from '../../utils/helpers';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
 const AttendanceTracking = () => {
-  const { user, isHRorAdmin, todayAttendance, punchCheckIn, punchCheckOut, fetchTodayStatus } = useAuth();
+  const { isHRorAdmin, todayAttendance, punchCheckIn, punchCheckOut } = useAuth();
   
   const [logs, setLogs] = useState([]);
   const [summary, setSummary] = useState(null);
@@ -109,11 +103,11 @@ const AttendanceTracking = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <Clock className="h-6 w-6 text-indigo-400" />
+          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-2.5">
+            <Clock className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
             Attendance Tracking
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             {isHRorAdmin ? 'Live company punch logs, punctuality metrics, and history.' : 'Record your daily punch in/out and view your monthly attendance summary.'}
           </p>
         </div>
@@ -121,16 +115,16 @@ const AttendanceTracking = () => {
 
       {/* Interactive Punch In/Out Card */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900 via-indigo-950/30 to-slate-900 p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="md:col-span-2 rounded-2xl border border-indigo-200 dark:border-indigo-500/20 bg-gradient-to-br from-white via-indigo-50/40 to-white dark:from-slate-900 dark:via-indigo-950/30 dark:to-slate-900 p-6 backdrop-blur-xl shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
             <div>
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Timer className="h-5 w-5 text-indigo-400" />
+              <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <Timer className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
                 Daily Timecard & Punch Station
               </h2>
-              <p className="text-xs text-slate-400">Standard office start is 09:15 AM (late arrival threshold)</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Standard office start is 09:15 AM (late arrival threshold)</p>
             </div>
-            <span className="text-xs font-mono bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 text-indigo-300">
+            <span className="text-xs font-mono bg-slate-100 dark:bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 text-indigo-700 dark:text-indigo-300 font-medium">
               {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
             </span>
           </div>
@@ -138,22 +132,22 @@ const AttendanceTracking = () => {
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="space-y-2 text-center sm:text-left">
               <div className="flex items-center gap-2 justify-center sm:justify-start">
-                <span className="text-xs font-medium text-slate-400">Current Status:</span>
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Current Status:</span>
                 <StatusBadge status={todayAttendance.attendance?.status || (todayAttendance.checkedIn ? 'PRESENT' : 'ABSENT')} />
               </div>
-              <p className="text-sm font-semibold text-white">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">
                 Check In:{' '}
-                <span className="font-mono text-indigo-400">
+                <span className="font-mono text-indigo-600 dark:text-indigo-400">
                   {todayAttendance.attendance?.check_in_time ? formatTime(todayAttendance.attendance.check_in_time) : '--:-- --'}
                 </span>
-                <span className="mx-2 text-slate-600">|</span>
+                <span className="mx-2 text-slate-300 dark:text-slate-600">|</span>
                 Check Out:{' '}
-                <span className="font-mono text-indigo-400">
+                <span className="font-mono text-indigo-600 dark:text-indigo-400">
                   {todayAttendance.attendance?.check_out_time ? formatTime(todayAttendance.attendance.check_out_time) : '--:-- --'}
                 </span>
               </p>
               {todayAttendance.attendance?.working_hours > 0 && (
-                <p className="text-xs font-medium text-emerald-400">
+                <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
                   Hours Recorded Today: {todayAttendance.attendance.working_hours} hrs
                 </p>
               )}
@@ -165,7 +159,7 @@ const AttendanceTracking = () => {
                 placeholder="Punch note (optional)..."
                 value={punchNotes}
                 onChange={(e) => setPunchNotes(e.target.value)}
-                className="rounded-xl border border-slate-800 bg-slate-950 py-1.5 px-3 text-xs text-white placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+                className="rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-950 py-1.5 px-3 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-indigo-500 focus:outline-none shadow-xs"
               />
 
               <div className="flex items-center gap-3">
@@ -173,7 +167,7 @@ const AttendanceTracking = () => {
                   <button
                     onClick={handlePunchIn}
                     disabled={punchLoading}
-                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-2.5 text-xs font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:bg-emerald-400 transition-all disabled:opacity-50"
+                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-xl bg-emerald-600 dark:bg-emerald-500 px-6 py-2.5 text-xs font-bold text-white dark:text-slate-950 shadow-md shadow-emerald-500/25 hover:bg-emerald-500 transition-all disabled:opacity-50"
                   >
                     <Play className="h-4 w-4 fill-current" />
                     <span>{punchLoading ? 'Recording...' : 'Punch In'}</span>
@@ -182,13 +176,13 @@ const AttendanceTracking = () => {
                   <button
                     onClick={handlePunchOut}
                     disabled={punchLoading}
-                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-xl bg-rose-500 px-6 py-2.5 text-xs font-bold text-white shadow-lg shadow-rose-500/25 hover:bg-rose-400 transition-all disabled:opacity-50"
+                    className="flex-1 sm:flex-initial flex items-center justify-center gap-2 rounded-xl bg-rose-600 dark:bg-rose-500 px-6 py-2.5 text-xs font-bold text-white shadow-md shadow-rose-500/25 hover:bg-rose-500 transition-all disabled:opacity-50"
                   >
                     <Square className="h-4 w-4 fill-current" />
                     <span>{punchLoading ? 'Recording...' : 'Punch Out'}</span>
                   </button>
                 ) : (
-                  <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-500/20">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-200 dark:border-emerald-500/20">
                     <CheckCircle2 className="h-4 w-4" />
                     <span>Day Completed</span>
                   </div>
@@ -198,53 +192,53 @@ const AttendanceTracking = () => {
           </div>
 
           {actionError && (
-            <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
+            <div className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-600 dark:text-rose-400">
               {actionError}
             </div>
           )}
           {actionSuccess && (
-            <div className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs text-emerald-400">
+            <div className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs text-emerald-600 dark:text-emerald-400">
               {actionSuccess}
             </div>
           )}
         </div>
 
         {/* Quick Month Metrics Widget */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-xl flex flex-col justify-between">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">Monthly Summary Stats</h3>
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 backdrop-blur-xl flex flex-col justify-between shadow-sm">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Monthly Summary Stats</h3>
           <div className="grid grid-cols-2 gap-3 my-3">
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[11px] text-slate-400">Present</span>
-              <p className="text-xl font-bold text-white mt-1">{summary?.present_days || 0} Days</p>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Present</span>
+              <p className="text-xl font-bold text-slate-900 dark:text-white mt-1">{summary?.present_days || 0} Days</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[11px] text-slate-400">Late Days</span>
-              <p className="text-xl font-bold text-amber-400 mt-1">{summary?.late_days || 0}</p>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Late Days</span>
+              <p className="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{summary?.late_days || 0}</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[11px] text-slate-400">Total Hours</span>
-              <p className="text-xl font-bold text-indigo-400 mt-1">{summary?.total_hours || 0}h</p>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Total Hours</span>
+              <p className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{summary?.total_hours || 0}h</p>
             </div>
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80">
-              <span className="text-[11px] text-slate-400">Avg Daily</span>
-              <p className="text-xl font-bold text-emerald-400 mt-1">{summary?.average_hours || 0}h</p>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200/80 dark:border-slate-800/80">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Avg Daily</span>
+              <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{summary?.average_hours || 0}h</p>
             </div>
           </div>
-          <p className="text-[10px] text-slate-500 text-center">Auto-calculated from official punches</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 text-center">Auto-calculated from official punches</p>
         </div>
       </div>
 
       {/* Filters Bar */}
-      <div className="flex flex-wrap gap-4 items-center justify-between bg-slate-900/60 p-4 rounded-2xl border border-slate-800 backdrop-blur-xl">
+      <div className="flex flex-wrap gap-4 items-center justify-between bg-white dark:bg-slate-900/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 backdrop-blur-xl shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           {/* Specific Date Filter */}
           <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-slate-400" />
+            <Calendar className="h-4 w-4 text-slate-500 dark:text-slate-400" />
             <input
               type="date"
               value={filterDate}
               onChange={(e) => setFilterDate(e.target.value)}
-              className="rounded-xl border border-slate-800 bg-slate-950 py-1.5 px-3 text-xs text-white focus:border-indigo-500 focus:outline-none"
+              className="rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-1.5 px-3 text-xs text-slate-900 dark:text-white focus:border-indigo-500 focus:outline-none"
             />
           </div>
 
@@ -252,7 +246,7 @@ const AttendanceTracking = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="rounded-xl border border-slate-800 bg-slate-950 py-1.5 px-3 text-xs text-slate-300 focus:border-indigo-500 focus:outline-none"
+            className="rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-1.5 px-3 text-xs text-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:outline-none"
           >
             <option value="">All Statuses</option>
             <option value="PRESENT">Present</option>
@@ -267,7 +261,7 @@ const AttendanceTracking = () => {
             <select
               value={filterDept}
               onChange={(e) => setFilterDept(e.target.value)}
-              className="rounded-xl border border-slate-800 bg-slate-950 py-1.5 px-3 text-xs text-slate-300 focus:border-indigo-500 focus:outline-none"
+              className="rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-1.5 px-3 text-xs text-slate-800 dark:text-slate-300 focus:border-indigo-500 focus:outline-none"
             >
               <option value="">All Departments</option>
               {departments.map((d) => (
@@ -279,7 +273,7 @@ const AttendanceTracking = () => {
           {(filterDate || filterStatus || filterDept) && (
             <button
               onClick={() => { setFilterDate(''); setFilterStatus(''); setFilterDept(''); }}
-              className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold"
+              className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 font-semibold"
             >
               Reset Filters
             </button>
@@ -288,19 +282,19 @@ const AttendanceTracking = () => {
       </div>
 
       {/* Attendance History Table */}
-      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 backdrop-blur-xl">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 backdrop-blur-xl shadow-sm">
         {loading ? (
           <LoadingSpinner size="md" message="Loading attendance logs..." />
         ) : logs.length === 0 ? (
           <div className="p-12 text-center">
-            <Clock className="mx-auto h-12 w-12 text-slate-600 mb-3" />
-            <p className="text-sm font-semibold text-slate-300">No attendance records found</p>
-            <p className="text-xs text-slate-500 mt-1">Check back later or adjust your date filters.</p>
+            <Clock className="mx-auto h-12 w-12 text-slate-300 dark:text-slate-600 mb-3" />
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">No attendance records found</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Check back later or adjust your date filters.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-slate-800 bg-slate-950/60 text-slate-400 uppercase tracking-wider font-semibold">
+              <thead className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/60 text-slate-600 dark:text-slate-400 uppercase tracking-wider font-semibold">
                 <tr>
                   <th className="py-3.5 px-4">Date</th>
                   <th className="py-3.5 px-4">Employee</th>
@@ -312,39 +306,39 @@ const AttendanceTracking = () => {
                   <th className="py-3.5 px-4">Notes</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60">
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-800/30 transition-colors">
-                    <td className="py-4 px-4 font-mono font-medium text-slate-200">
+                  <tr key={log.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="py-4 px-4 font-mono font-medium text-slate-800 dark:text-slate-200">
                       {formatDate(log.date)}
                     </td>
                     <td className="py-4 px-4">
                       <div>
-                        <p className="font-semibold text-white">{log.employee_name}</p>
-                        <p className="text-[11px] font-mono text-indigo-400">{log.employee_code}</p>
+                        <p className="font-semibold text-slate-900 dark:text-white">{log.employee_name}</p>
+                        <p className="text-[11px] font-mono text-indigo-600 dark:text-indigo-400">{log.employee_code}</p>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-slate-300">
+                    <td className="py-4 px-4 text-slate-600 dark:text-slate-300">
                       {log.department_name || '-'}
                     </td>
-                    <td className="py-4 px-4 font-mono text-slate-200">
+                    <td className="py-4 px-4 font-mono text-slate-800 dark:text-slate-200">
                       {log.check_in_time ? formatTime(log.check_in_time) : '-'}
                       {log.late_minutes > 0 && (
-                        <span className="ml-1.5 text-[10px] text-amber-400">
+                        <span className="ml-1.5 text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
                           (+{log.late_minutes}m)
                         </span>
                       )}
                     </td>
-                    <td className="py-4 px-4 font-mono text-slate-200">
+                    <td className="py-4 px-4 font-mono text-slate-800 dark:text-slate-200">
                       {log.check_out_time ? formatTime(log.check_out_time) : '-'}
                     </td>
-                    <td className="py-4 px-4 font-mono font-semibold text-indigo-300">
+                    <td className="py-4 px-4 font-mono font-semibold text-indigo-600 dark:text-indigo-300">
                       {log.working_hours > 0 ? `${log.working_hours}h` : '-'}
                     </td>
                     <td className="py-4 px-4">
                       <StatusBadge status={log.status} />
                     </td>
-                    <td className="py-4 px-4 text-slate-400 max-w-xs truncate">
+                    <td className="py-4 px-4 text-slate-500 dark:text-slate-400 max-w-xs truncate">
                       {log.notes || '-'}
                     </td>
                   </tr>

@@ -128,7 +128,7 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={isEdit ? `Edit Employee (${employee.employee_id})` : 'Register New Employee'} maxWidth="max-w-2xl">
       {error && (
-        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-400">
+        <div className="mb-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-600 dark:text-rose-400">
           {error}
         </div>
       )}
@@ -136,7 +136,7 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Employee ID *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Employee ID *</label>
             <input
               type="text"
               name="employee_id"
@@ -145,17 +145,17 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.employee_id}
               onChange={handleChange}
               placeholder="EMP-001"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none disabled:opacity-50"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none disabled:opacity-50"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">System Role *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">System Role *</label>
             <select
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             >
               <option value="EMPLOYEE">Employee</option>
               <option value="HR">HR Manager</option>
@@ -164,7 +164,7 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">First Name *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">First Name *</label>
             <input
               type="text"
               name="first_name"
@@ -172,12 +172,12 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.first_name}
               onChange={handleChange}
               placeholder="Jane"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Last Name *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Last Name *</label>
             <input
               type="text"
               name="last_name"
@@ -185,12 +185,12 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.last_name}
               onChange={handleChange}
               placeholder="Doe"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Email *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Email *</label>
             <input
               type="email"
               name="email"
@@ -198,12 +198,12 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="jane.doe@company.com"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">
               {isEdit ? 'New Password (Optional)' : 'Initial Password *'}
             </label>
             <input
@@ -213,17 +213,17 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Department</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Department</label>
             <select
               name="department"
               value={formData.department}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             >
               <option value="">Select Department</option>
               {departments.map((d) => (
@@ -233,7 +233,7 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Designation *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Designation *</label>
             <input
               type="text"
               name="designation"
@@ -241,28 +241,28 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.designation}
               onChange={handleChange}
               placeholder="Software Engineer"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Date of Joining</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Date of Joining</label>
             <input
               type="date"
               name="date_of_joining"
               value={formData.date_of_joining}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Employment Type</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Employment Type</label>
             <select
               name="employment_type"
               value={formData.employment_type}
               onChange={handleChange}
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             >
               <option value="FULL_TIME">Full Time</option>
               <option value="PART_TIME">Part Time</option>
@@ -272,26 +272,26 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Phone Number</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Phone Number</label>
             <input
               type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-400 mb-1">Annual Salary ($)</label>
+            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Annual Salary ($)</label>
             <input
               type="number"
               name="salary"
               value={formData.salary}
               onChange={handleChange}
               placeholder="75000"
-              className="w-full rounded-xl border border-slate-800 bg-slate-950 py-2 px-3 text-sm text-white focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>
         </div>
@@ -303,25 +303,25 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
             name="is_active"
             checked={formData.is_active}
             onChange={handleChange}
-            className="h-4 w-4 rounded border-slate-800 bg-slate-950 text-indigo-600 focus:ring-indigo-500"
+            className="h-4 w-4 rounded border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-indigo-600 focus:ring-indigo-500"
           />
-          <label htmlFor="is_active" className="text-xs font-medium text-slate-300">
+          <label htmlFor="is_active" className="text-xs font-medium text-slate-700 dark:text-slate-300">
             Account Active (Permit login and attendance recording)
           </label>
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+        <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+            className="rounded-xl border border-slate-300 dark:border-slate-800 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-lg shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
+            className="rounded-xl bg-indigo-600 px-5 py-2 text-xs font-semibold text-white shadow-md shadow-indigo-600/25 hover:bg-indigo-500 transition-all disabled:opacity-50"
           >
             {loading ? 'Saving...' : isEdit ? 'Update Employee' : 'Create Employee'}
           </button>
