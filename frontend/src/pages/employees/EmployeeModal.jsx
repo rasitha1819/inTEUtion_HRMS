@@ -21,7 +21,6 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
     department: '',
     date_of_joining: new Date().toISOString().split('T')[0],
     employment_type: 'FULL_TIME',
-    salary: '',
     address: '',
     emergency_contact: '',
     is_active: true,
@@ -55,7 +54,6 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
         department: employee.department || '',
         date_of_joining: employee.date_of_joining || '',
         employment_type: employee.employment_type || 'FULL_TIME',
-        salary: employee.salary || '',
         address: employee.address || '',
         emergency_contact: employee.emergency_contact || '',
         is_active: employee.is_active !== undefined ? employee.is_active : true,
@@ -73,7 +71,6 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
         department: '',
         date_of_joining: new Date().toISOString().split('T')[0],
         employment_type: 'FULL_TIME',
-        salary: '',
         address: '',
         emergency_contact: '',
         is_active: true,
@@ -114,11 +111,18 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
       onClose();
     } catch (err) {
       console.error(err);
-      const errMsg = err.response?.data
-        ? Object.entries(err.response.data)
-            .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(' ') : v}`)
-            .join(' | ')
-        : 'Failed to save employee profile.';
+      let errMsg = 'Failed to save employee profile.';
+      if (err.response?.data) {
+        if (typeof err.response.data === 'string') {
+          errMsg = err.response.data.includes('<!DOCTYPE') || err.response.data.includes('<html')
+            ? 'Server error occurred while saving employee profile.'
+            : err.response.data;
+        } else if (typeof err.response.data === 'object') {
+          errMsg = Object.entries(err.response.data)
+            .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(' ') : (typeof v === 'object' ? JSON.stringify(v) : v)}`)
+            .join(' | ');
+        }
+      }
       setError(errMsg);
     } finally {
       setLoading(false);
@@ -271,7 +275,7 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
             </select>
           </div>
 
-          <div>
+          <div className="sm:col-span-2">
             <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Phone Number</label>
             <input
               type="text"
@@ -279,18 +283,6 @@ const EmployeeModal = ({ isOpen, onClose, employee, onSave }) => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="+1 (555) 000-0000"
-              className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase text-slate-700 dark:text-slate-400 mb-1">Annual Salary ($)</label>
-            <input
-              type="number"
-              name="salary"
-              value={formData.salary}
-              onChange={handleChange}
-              placeholder="75000"
               className="w-full rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 py-2 px-3 text-sm text-slate-900 dark:text-white focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none"
             />
           </div>

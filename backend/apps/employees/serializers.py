@@ -51,9 +51,11 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
         return ret
 
     def create(self, validated_data):
-        email = self.initial_data.get('email')
-        role = self.initial_data.get('role', RoleChoices.EMPLOYEE)
+        # Pop user model specific and property fields before creating Employee instance
+        validated_data.pop('user', None)
+        role = validated_data.pop('role', self.initial_data.get('role', RoleChoices.EMPLOYEE))
         password = validated_data.pop('password', 'Password@123')
+        email = self.initial_data.get('email')
         first_name = validated_data.get('first_name', '')
         last_name = validated_data.get('last_name', '')
 
@@ -98,9 +100,11 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
         return employee
 
     def update(self, instance, validated_data):
-        email = self.initial_data.get('email')
-        role = self.initial_data.get('role')
+        # Pop user model specific and property fields before updating Employee instance
+        validated_data.pop('user', None)
+        role = validated_data.pop('role', self.initial_data.get('role'))
         password = validated_data.pop('password', None)
+        email = self.initial_data.get('email')
 
         user = instance.user
         if user:
