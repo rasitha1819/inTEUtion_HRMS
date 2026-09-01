@@ -1,0 +1,3 @@
+@echo off
+echo Starting HRMS Backend (Django)...
+"venv\Scripts\python.exe" manage.py runserver 8000
