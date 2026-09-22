@@ -70,6 +70,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    try {
+      authApi.logout?.();
+    } catch (e) {
+      console.warn('Logout error:', e);
+    }
     localStorage.removeItem('hrms_access_token');
     localStorage.removeItem('hrms_refresh_token');
     localStorage.removeItem('hrms_user');

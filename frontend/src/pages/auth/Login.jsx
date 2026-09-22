@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Lock, Mail, ArrowRight, ShieldCheck, UserCheck, AlertCircle, Sun, Moon } from 'lucide-react';
+import { Sparkles, Lock, Mail, ArrowRight, ShieldCheck, UserCheck, AlertCircle, Sun, Moon, Database, Check } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { isFirebaseMode } from '../../config/firebase';
+import { seedInitialFirebaseData } from '../../services/firebaseSeeder';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,6 +14,22 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [seedLoading, setSeedLoading] = useState(false);
+  const [seedSuccess, setSeedSuccess] = useState('');
+
+  const handleSeedData = async () => {
+    try {
+      setSeedLoading(true);
+      setError('');
+      const res = await seedInitialFirebaseData();
+      setSeedSuccess(res.message);
+    } catch (err) {
+      console.error(err);
+      setError(err.message || 'Failed to seed Firebase data. Verify Firebase keys in .env');
+    } finally {
+      setSeedLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,6 +190,32 @@ const Login = () => {
                 <span className="text-[9px] text-slate-500 dark:text-slate-400">Punch & Leave</span>
               </button>
             </div>
+
+            {/* Firebase Database Status & Seeder */}
+            {isFirebaseMode() && (
+              <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800/60">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                    <Database className="h-3.5 w-3.5" />
+                    <span>Firebase Storage Active</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleSeedData}
+                    disabled={seedLoading}
+                    className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline disabled:opacity-50"
+                  >
+                    {seedLoading ? 'Seeding...' : 'Seed Sample Data'}
+                  </button>
+                </div>
+                {seedSuccess && (
+                  <p className="mt-2 text-[10px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <Check className="h-3 w-3" />
+                    <span>{seedSuccess}</span>
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
